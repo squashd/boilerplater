@@ -6,10 +6,10 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/SQUASHD/boilerplater/cmd/internal/boilerplate"
-	"github.com/SQUASHD/boilerplater/cmd/internal/markdown"
-	"github.com/SQUASHD/boilerplater/cmd/internal/projectgen"
-	"github.com/SQUASHD/boilerplater/shared/models"
+	"github.com/SQUASHD/boilerplater/internal/shared/models"
+	"github.com/SQUASHD/boilerplater/pkg/boilerplate"
+	"github.com/SQUASHD/boilerplater/pkg/markdown"
+	"github.com/SQUASHD/boilerplater/pkg/projectgen"
 )
 
 func main() {

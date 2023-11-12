@@ -2,10 +2,10 @@
 
 ## Overview
 
-Boilerpalter is designed to enhance the creative process for developers at all levels.
+Boilerplater is designed to enhance the creative process for developers at all levels.
 It combines the power of AI with user input to generate structured project outlines. 
 The tool aims to provide a springboard for creativity, offering direction without
-generating actual code, thus fostering a unique blend of guidance and creative freedom.
+generating actual code, fostering a unique blend of guidance and creative freedom.
 
 ## Key Components
 
@@ -30,5 +30,5 @@ The primary goal of this tool is to streamline the project initiation phase, par
 ## How It Works
 
 1. **Input Phase**: Users input their initial project ideas or requirements through the CLI/TUI.
-2. **Processing Phase**: These inputs are sent to the server, where AI algorithms process them into detailed, structured prompts.
+2. **Processing Phase**: These inputs are sent to the server, where AI(?) algorithms process them into detailed, structured prompts.
 3. **Output Phase**: The app outputs a well-organized project framework, including an overview, structure, and suggested boilerplate elements.

@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/SQUASHD/boilerplater/shared/models"
+	"github.com/SQUASHD/boilerplater/internal/shared/models"
 )
 
 func GenerateFunctionBoilerplate(boilerplate []models.FunctionBoilerplate) {

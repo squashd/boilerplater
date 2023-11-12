@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/SQUASHD/boilerplater/shared/models"
+	"github.com/SQUASHD/boilerplater/internal/shared/models"
 )
 
 type Markdownable interface {

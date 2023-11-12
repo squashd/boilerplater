@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/SQUASHD/boilerplater/shared/models"
+	"github.com/SQUASHD/boilerplater/internal/shared/models"
 )
 
 // GenerateProjectStructure creates the directories and files based on the provided project structure.
