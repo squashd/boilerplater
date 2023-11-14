@@ -1,12 +1,13 @@
+package utils
+
 func LogInfo() {
-    // TODO: Implement
+	// TODO: Implement
 }
 
 func LogError() {
-    // TODO: Implement
+	// TODO: Implement
 }
 
 func LogDebug() {
-    // TODO: Implement
+	// TODO: Implement
 }
-

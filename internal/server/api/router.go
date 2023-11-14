@@ -1,13 +1,25 @@
 package api
 
-func SetupRoutes() {
-	// TODO: Implement
-}
+import (
+	"net/http"
 
-func HandleGET() {
-	// TODO: Implement
-}
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+)
 
-func HandlePOST() {
-	// TODO: Implement
+func (s *Server) RegisterRoutes() http.Handler {
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+
+	// TODO: Implment user authentication
+	// r.Use(authMiddleware)
+
+	// Version 1 API Routes
+	r.Route("/api/v1", func(r chi.Router) {
+		r.Post("/templates", s.templatesHandlerV1)
+		r.Get("/templates", s.mockHandler)
+		r.Post("/testprompts", s.testPromptHandlerV1)
+	})
+
+	return r
 }

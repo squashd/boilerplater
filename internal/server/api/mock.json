@@ -1,0 +1,176 @@
+{
+  "projectStructure": {
+    "rootDirectory": "",
+    "directories": [
+      {
+        "name": "cmd",
+        "subDirs": [
+          {
+            "name": "server",
+            "files": ["main.go"]
+          }
+        ],
+        "files": []
+      },
+      {
+        "name": "pkg",
+        "subDirs": [
+          {
+            "name": "api",
+            "files": ["handler.go", "router.go"]
+          },
+          {
+            "name": "prompt",
+            "files": ["generator.go", "parser.go"]
+          },
+          {
+            "name": "ai",
+            "files": ["ai_client.go", "response_processor.go"]
+          },
+          {
+            "name": "utils",
+            "files": ["logger.go", "validator.go"]
+          }
+        ],
+        "files": []
+      },
+      {
+        "name": "config",
+        "files": ["config.go", "defaults.go"]
+      },
+      {
+        "name": "tests",
+        "files": ["api_test.go", "prompt_test.go", "ai_test.go"]
+      },
+      {
+        "name": "docs",
+        "files": ["README.md", "API_SPEC.md", "DEVELOPMENT_GUIDE.md"]
+      }
+    ],
+    "mainFiles": ["go.mod", "go.sum", ".gitignore", "Dockerfile"]
+  },
+  "functionBoilerplate": [
+    {
+      "language": "Go",
+      "filePath": "cmd/server/main.go",
+      "functions": ["main"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/api/handler.go",
+      "functions": ["HandleRequest", "ParseRequest", "SendResponse"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/api/router.go",
+      "functions": ["SetupRoutes", "HandleGET", "HandlePOST"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/prompt/generator.go",
+      "functions": ["GeneratePrompt", "FormatPrompt"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/prompt/parser.go",
+      "functions": ["ParseInput", "ValidateInput"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/ai/ai_client.go",
+      "functions": ["SendToAI", "ReceiveFromAI"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/ai/response_processor.go",
+      "functions": ["ProcessAIResponse", "FormatAIResponse"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/utils/logger.go",
+      "functions": ["LogInfo", "LogError", "LogDebug"]
+    },
+    {
+      "language": "Go",
+      "filePath": "pkg/utils/validator.go",
+      "functions": ["ValidateRequest", "CheckFormat"]
+    },
+    {
+      "language": "Go",
+      "filePath": "config/config.go",
+      "functions": ["LoadConfig", "GetConfig"]
+    },
+    {
+      "language": "Go",
+      "filePath": "config/defaults.go",
+      "functions": ["SetDefaultValues"]
+    },
+    {
+      "language": "Go",
+      "filePath": "tests/api_test.go",
+      "functions": ["TestHandleRequest", "TestParseRequest", "TestSendResponse"]
+    },
+    {
+      "language": "Go",
+      "filePath": "tests/prompt_test.go",
+      "functions": ["TestGeneratePrompt", "TestFormatPrompt"]
+    },
+    {
+      "language": "Go",
+      "filePath": "tests/ai_test.go",
+      "functions": ["TestSendToAI", "TestProcessAIResponse"]
+    }
+  ],
+  "advancedProject": {
+    "title": "AI Prompt Parsing and Response Server",
+    "objective": "To develop a server in Go that processes incoming requests, transforms them into AI-friendly prompts, and then structures the AI's response into a standardized format.",
+    "detailedFeatures": [
+      {
+        "name": "Request Parsing",
+        "description": "Interprets and parses incoming requests to extract relevant information for AI prompt generation.",
+        "implementationSteps": [
+          "Set up an HTTP server to listen for incoming requests.",
+          "Extract data from requests (e.g., headers, body, query parameters).",
+          "Implement logic to identify key elements for prompt creation."
+        ]
+      },
+      {
+        "name": "AI Prompt Generation",
+        "description": "Transforms parsed data into a well-structured prompt suitable for AI processing.",
+        "implementationSteps": [
+          "Design a template for AI prompts based on request data.",
+          "Incorporate error handling to manage incomplete or incorrect data.",
+          "Ensure prompt structure aligns with AI model requirements."
+        ]
+      },
+      {
+        "name": "AI Response Processing",
+        "description": "Processes the AI's response and converts it into a structured format.",
+        "implementationSteps": [
+          "Receive and parse the AI's raw response.",
+          "Transform the response into a predefined structured format.",
+          "Handle any errors or anomalies in the AI's response."
+        ]
+      }
+    ],
+    "developmentProcess": {
+      "setup": "Initialize the Go environment and project structure, including necessary libraries and dependencies.",
+      "phases": [
+        "Phase 1: Environment Setup and Basic Server Implementation",
+        "Phase 2: Implementation of Request Parsing and Prompt Generation",
+        "Phase 3: Integration with AI and Response Structuring",
+        "Phase 4: Refinement and Optimization"
+      ],
+      "testing": "Implement unit and integration tests at each development phase to ensure functionality and reliability.",
+      "debugging": "Use Go's debugging tools and logging to identify and resolve issues during development."
+    },
+    "challenges": [
+      "Ensuring accurate and efficient parsing of diverse request formats.",
+      "Designing prompts that effectively utilize the AI's capabilities.",
+      "Handling the variability and unpredictability of AI responses.",
+      "Maintaining performance and scalability of the server."
+    ]
+  }
+
+}
+
