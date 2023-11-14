@@ -30,7 +30,7 @@ type ProjectStep struct {
 	Tips        *string `json:"tips,omitempty"`
 }
 
-type AdvancedProject struct {
+type ExperiencedProject struct {
 	Title              string             `json:"title"`
 	Objective          string             `json:"objective"`
 	DetailedFeatures   []DetailedFeature  `json:"detailedFeatures"`

@@ -1,11 +1,14 @@
 package main
 
 import (
-	"encoding/json"
+	"flag"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
+	"github.com/SQUASHD/boilerplater/internal/shared/httpclient"
 	"github.com/SQUASHD/boilerplater/internal/shared/models"
 	"github.com/SQUASHD/boilerplater/pkg/boilerplate"
 	"github.com/SQUASHD/boilerplater/pkg/markdown"
@@ -13,42 +16,31 @@ import (
 )
 
 func main() {
-	if len(os.Args) < 3 {
-		log.Fatal("Usage: boilerplater -i <path>")
-	}
-	if os.Args[1] != "-i" {
-		log.Fatal("Usage: boilerplater -i <path>")
-	}
-
 	type ProjectData struct {
 		ProjectStructure    models.ProjectStructure      `json:"projectStructure"`
 		FunctionBoilerplate []models.FunctionBoilerplate `json:"functionBoilerplate"`
-		AdvancedProject     markdown.AdvancedProj        `json:"advancedProject"`
+		AdvancedProject     markdown.ExperiencedProj     `json:"advancedProject"`
 	}
 
-	inFilePath := os.Args[2]
-	mdgen := markdown.MarkdownGenerator{}
-
-	// projectDir is the directory containing the file at inFilePath
-	projectDir := filepath.Dir(inFilePath)
-	// Read the JSON file
-	absPath, err := filepath.Abs(inFilePath)
+	projectDir, err := os.Getwd()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error getting current working directory: %v", err)
 	}
-	jsonFile, err := os.Open(absPath)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer jsonFile.Close()
+	url := flag.String("url", "", "URL to fetch JSON from")
+	flag.Parse()
 
-	// Decode the JSON file
+	fmt.Println(os.Args)
+	if *url == "" {
+		log.Fatal("No URL provided")
+	}
+
 	var projectData ProjectData
-	decoder := json.NewDecoder(jsonFile)
-	err = decoder.Decode(&projectData)
-	if err != nil {
-		log.Fatalf("Error unmarshalling JSON: %v", err)
+	httpClient := httpclient.NewHTTPClient(2 * time.Minute)
+	if err = httpClient.Get(nil, *url, &projectData); err != nil {
+		log.Fatalf("Error fetching JSON: %v", err)
 	}
+
+	mdgen := markdown.MarkdownGenerator{}
 
 	if err = projectgen.GenerateProjectStructure(projectData.ProjectStructure); err != nil {
 		log.Fatalf("Error generating project structure: %v", err)
