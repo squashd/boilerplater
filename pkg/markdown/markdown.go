@@ -13,12 +13,10 @@ type Markdownable interface {
 
 type MarkdownGenerator struct{}
 
-// GenerateMarkdownHeader generates a Markdown header.
 func (m MarkdownGenerator) GenerateMarkdownHeader(level int, text string) string {
 	return fmt.Sprintf("%s %s\n\n", strings.Repeat("#", level), text)
 }
 
-// GenerateMarkdownList generates a Markdown list.
 func (m MarkdownGenerator) GenerateMarkdownList(items []string, ordered bool) string {
 	var builder strings.Builder
 	for i, item := range items {

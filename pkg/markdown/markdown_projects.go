@@ -14,8 +14,8 @@ type IntermediateProj struct {
 	models.IntermediateProject
 }
 
-type AdvancedProj struct {
-	models.AdvancedProject
+type ExperiencedProj struct {
+	models.ExperiencedProject
 }
 
 func (bp BeginnerProj) ToMarkdown() string {
@@ -90,7 +90,7 @@ func (ip IntermediateProj) ToMarkdown() string {
 	return sb.String()
 }
 
-func (ap AdvancedProj) ToMarkdown() string {
+func (ap ExperiencedProj) ToMarkdown() string {
 	gen := MarkdownGenerator{}
 
 	var sb strings.Builder
