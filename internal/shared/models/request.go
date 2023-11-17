@@ -1,9 +1,6 @@
 package models
 
-import (
-	"encoding/json"
-)
-
+// I have no clue whether this is the right way to do enums in Golang...
 type ProficiencyLevel int
 
 const (
@@ -14,10 +11,6 @@ const (
 
 func (pl ProficiencyLevel) String() string {
 	return [...]string{"Beginner", "Intermediate", "Experienced"}[pl]
-}
-
-func (pl ProficiencyLevel) MarshalJSON() ([]byte, error) {
-	return json.Marshal(pl.String())
 }
 
 type DesiredOutcome int
@@ -32,17 +25,13 @@ func (do DesiredOutcome) String() string {
 	return [...]string{"Learning", "Portfolio", "Production"}[do]
 }
 
-func (do DesiredOutcome) MarshalJSON() ([]byte, error) {
-	return json.Marshal(do.String())
-}
-
 type ProjectRequest struct {
-	ProjectName         string           `json:"project_name"`
-	Description         string           `json:"description"`
-	Language            string           `json:"language"`
-	ProficiencyLevel    ProficiencyLevel `json:"proficiency_level"`
-	LanguageProficiency ProficiencyLevel `json:"language_proficiency"`
-	DesiredOutcome      DesiredOutcome   `json:"desired_outcome"`
-	MakeDirs            bool             `json:"make_dirs"`
-	MakeBoilerplate     bool             `json:"make_boilerplate"`
+	ProjectName     string           `json:"project_name"`
+	Description     string           `json:"description"`
+	Language        string           `json:"language"`
+	Experience      ProficiencyLevel `json:"proficiency_level"`
+	LangProficiency ProficiencyLevel `json:"language_proficiency"`
+	DesiredOutcome  DesiredOutcome   `json:"desired_outcome"`
+	MakeDirs        bool             `json:"make_dirs"`
+	MakeBoilerplate bool             `json:"make_boilerplate"`
 }

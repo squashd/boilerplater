@@ -62,7 +62,7 @@ func (m MarkdownGenerator) ConvertStepsToMarkdown(steps []models.ProjectStep) st
 	return sb.String()
 }
 
-func (m MarkdownGenerator) ConverFeaturesToMarkdown(features []models.Feature) string {
+func (m MarkdownGenerator) ConvertFeaturesToMarkdown(features []models.Feature) string {
 	var sb strings.Builder
 	for _, feature := range features {
 		sb.WriteString(m.GenerateMarkdownHeader(3, feature.Name))

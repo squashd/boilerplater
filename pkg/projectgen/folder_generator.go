@@ -1,3 +1,4 @@
+// projectgen is for the currently unimplemented boilerplate project structure and functions
 package projectgen
 
 import (
@@ -8,7 +9,7 @@ import (
 )
 
 func GenerateProjectStructure(projectStructure models.ProjectStructure) error {
-	rootDir, err := getRootDirectory(projectStructure.RootDirectory)
+	rootDir, err := GetRootDirectory(projectStructure.RootDirectory)
 	if err != nil {
 		return err
 	}
@@ -28,7 +29,7 @@ func GenerateProjectStructure(projectStructure models.ProjectStructure) error {
 	return nil
 }
 
-func getRootDirectory(rootDir string) (string, error) {
+func GetRootDirectory(rootDir string) (string, error) {
 	if rootDir == "" {
 		return os.Getwd()
 	}

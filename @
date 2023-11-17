@@ -1,0 +1,96 @@
+package input
+
+import (
+	"fmt"
+
+	"github.com/SQUASHD/boilerplater/internal/cli/app"
+	"github.com/SQUASHD/boilerplater/internal/cli/styles"
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+)
+
+type Choice struct {
+	Title   string
+	Desc    string
+	Value   int
+	Checked bool
+}
+
+type MultiChoiceModel struct {
+	choices []Choice
+	cursor  int
+	header  string
+	app     *app.App
+	output  *int
+}
+
+func NewMultiChoiceModel(app *app.App, header string, choices []Choice, output *int) MultiChoiceModel {
+	return MultiChoiceModel{
+		choices: choices,
+		cursor:  0,
+		header:  styles.Header.Render(header),
+		app:     app,
+		output:  output,
+	}
+}
+
+func (m MultiChoiceModel) Init() tea.Cmd {
+	return nil
+}
+
+func (m MultiChoiceModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		switch msg.Type {
+		case tea.KeyEnter:
+			*m.output = m.cursor
+			return m, tea.Quit
+		case tea.KeyCtrlC, tea.KeyEsc:
+			m.app.Running = false
+			return m, tea.Quit
+		case tea.KeyUp, tea.KeyLeft:
+			m.cursor = (m.cursor - 1 + len(m.choices)) % len(m.choices)
+		case tea.KeyDown, tea.KeyRight:
+			m.cursor = (m.cursor + 1) % len(m.choices)
+		}
+		// For the VIM users out there
+		switch msg.String() {
+		case "k":
+			m.cursor = (m.cursor - 1 + len(m.choices)) % len(m.choices)
+		case "j":
+			m.cursor = (m.cursor + 1) % len(m.choices)
+		}
+	}
+	return m, nil
+}
+
+func (m MultiChoiceModel) View() string {
+	var choicesStr string
+	for i, choice := range m.choices {
+		circle := lipgloss.NewStyle().SetString("○").String()
+		if i == m.cursor {
+			circle = lipgloss.NewStyle().SetString("●").String()
+		}
+
+		choiceStr := fmt.Sprintf("%s%s", styles.Header.Render(circle), choice.Title)
+		if i != m.cursor {
+			choiceStr = styles.Choice.Render(choiceStr)
+		}
+
+		choicesStr += choiceStr
+	}
+
+	return fmt.Sprintf("%s\n%s", m.header, choicesStr)
+}
+
+func (c ChoiceInteraction) Execute() error {
+	m := NewMultiChoiceModel(c.app, c.header, c.Options, c.output)
+	p := tea.NewProgram(m)
+	if _, err := p.Run(); err != nil {
+		return err
+	}
+	if !c.app.Running {
+		c.app.ExitAndCleanup(p)
+	}
+	return nil
+}
