@@ -31,6 +31,9 @@ type DevelopmentProcess struct {
 `
 )
 
+// generateExperiencedSystemPrompt is made by someone who at best can be described
+// as 'intermediate'.
+// whether or not it actually produces something 'intellectually stimulating' remains to be seen
 func generateExperiencedSystemPrompt(req *models.ProjectRequest) string {
 	var sb strings.Builder
 	sb.WriteString(BaseSystemPrompt)

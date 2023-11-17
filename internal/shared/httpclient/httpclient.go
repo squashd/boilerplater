@@ -1,3 +1,4 @@
+// Little wrapper library for making HTTP request and marhsalling data into structs
 package httpclient
 
 import (
@@ -63,4 +64,9 @@ func (h *httpClient) Post(ctx context.Context, url string, payload, response int
 	}
 
 	return json.NewDecoder(resp.Body).Decode(response)
+}
+
+func (h *httpClient) NewTimeoutContext(timeout time.Duration) (context.Context, context.CancelFunc) {
+	ctx, cancel := context.WithTimeout(context.Background(), timeout)
+	return ctx, cancel
 }

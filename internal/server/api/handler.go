@@ -3,6 +3,7 @@ package api
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -12,6 +13,7 @@ import (
 	wrangler "github.com/SQUASHD/boilerplater/pkg/openai-wrangler"
 )
 
+// Because the request to the open AI API is only made here I've also defined it here
 type OpenAIRequest struct {
 	Model       string    `json:"model"`
 	Messages    []Message `json:"messages"`
@@ -23,6 +25,9 @@ type Message struct {
 	Content string `json:"content"`
 }
 
+// templatesHandlerV1 takes a request based on the shard project request struct
+// sends it to OpenAI, recieves the response and sanitizes it for code block strings
+// before sending it back to the user
 func (s *Server) templatesHandlerV1(w http.ResponseWriter, r *http.Request) {
 	req := &models.ProjectRequest{}
 	err := json.NewDecoder(r.Body).Decode(req)
@@ -31,8 +36,8 @@ func (s *Server) templatesHandlerV1(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	sytemPrompt := prompt.GenerateSystemPrompt(req)
 	userPrompt := prompt.GenerateUserPrompt(req)
+	sytemPrompt := prompt.GenerateSystemPrompt(req)
 
 	payload := OpenAIRequest{
 		Model: "gpt-4",
@@ -56,8 +61,8 @@ func (s *Server) templatesHandlerV1(w http.ResponseWriter, r *http.Request) {
 	}
 
 	aiReq.Header.Set("Content-Type", "application/json")
-	aiReq.Header.Set("Authorization", "Bearer "+os.Getenv("OPENAI_APIKEY"))
-	aiReq.Header.Set("OpenAI-Organization", os.Getenv("OPENAI_ORGID"))
+	aiReq.Header.Set("Authorization", "Bearer "+os.Getenv("OPEN_AI_API_KEY"))
+	aiReq.Header.Set("OpenAI-Organization", os.Getenv("OPEN_AI_ORG_ID"))
 
 	client := &http.Client{}
 	resp, err := client.Do(aiReq)
@@ -80,8 +85,9 @@ func (s *Server) templatesHandlerV1(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// The project outline is different depending on the experience level
 	var model interface{}
-	switch req.ProficiencyLevel {
+	switch req.Experience {
 	case 0:
 		model = &models.BeginnerProject{}
 	case 1:
@@ -96,45 +102,8 @@ func (s *Server) templatesHandlerV1(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	jsonRes, _ := json.Marshal(model)
+	fmt.Printf("Project JSON: %+v\n", string(jsonRes))
+
 	RespondWithJSON(w, http.StatusOK, model)
-}
-
-func (s *Server) mockHandler(w http.ResponseWriter, r *http.Request) {
-
-	type ProjectData struct {
-		ProjectStructure    models.ProjectStructure      `json:"projectStructure"`
-		FunctionBoilerplate []models.FunctionBoilerplate `json:"functionBoilerplate"`
-		AdvancedProject     models.ExperiencedProject    `json:"advancedProject"`
-	}
-
-	data, err := os.ReadFile("/Users/hjartland/repos/personal-projects/boilerplater/internal/server/api/mock.json")
-	if err != nil {
-		RespondWithError(w, http.StatusInternalServerError, "Error reading mock data")
-		return
-	}
-
-	var projectData ProjectData
-	if err = json.Unmarshal(data, &projectData); err != nil {
-		RespondWithError(w, http.StatusInternalServerError, "Error unmarshalling mock data")
-		return
-	}
-
-	RespondWithJSON(w, http.StatusOK, projectData)
-}
-
-func (s *Server) testPromptHandlerV1(w http.ResponseWriter, r *http.Request) {
-	req := &models.ProjectRequest{}
-	err := json.NewDecoder(r.Body).Decode(req)
-	if err != nil {
-		RespondWithError(w, http.StatusBadRequest, "Invalid request payload")
-		return
-	}
-
-	sytemPrompt := prompt.GenerateSystemPrompt(req)
-	userPrompt := prompt.GenerateUserPrompt(req)
-
-	RespondWithJSON(w, http.StatusOK, map[string]string{
-		"systemPrompt": sytemPrompt,
-		"userPrompt":   userPrompt,
-	})
 }

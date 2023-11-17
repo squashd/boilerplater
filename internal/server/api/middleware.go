@@ -1,3 +1,4 @@
+// Auth middleware in case I need to limit requests
 package api
 
 import (

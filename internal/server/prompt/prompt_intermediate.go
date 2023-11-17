@@ -33,6 +33,7 @@ type ProjectStep struct {
 `
 )
 
+// generateIntermidateSystemPrompt tries to focus on some higher level implementation details
 func generateIntermidateSystemPrompt(req *models.ProjectRequest) string {
 	var sb strings.Builder
 	sb.WriteString(BaseSystemPrompt)

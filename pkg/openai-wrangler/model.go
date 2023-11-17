@@ -1,5 +1,6 @@
 package wrangler
 
+// Structs that define the expected response from OpenAI
 type OpenAIRequest struct {
 	Model       string    `json:"model"`
 	Messages    []Message `json:"messages"`

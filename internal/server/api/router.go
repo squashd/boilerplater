@@ -17,8 +17,6 @@ func (s *Server) RegisterRoutes() http.Handler {
 	// Version 1 API Routes
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Post("/templates", s.templatesHandlerV1)
-		r.Get("/templates", s.mockHandler)
-		r.Post("/testprompts", s.testPromptHandlerV1)
 	})
 
 	return r

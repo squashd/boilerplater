@@ -24,6 +24,8 @@ type ProjectStep struct {
 `
 )
 
+// generateBeginnerSystemPrompt generates a prompt that tries to prevent
+// overly complex implementation details
 func generateBeginnerSystemPrompt(req *models.ProjectRequest) string {
 	var sb strings.Builder
 	sb.WriteString(BaseSystemPrompt)
